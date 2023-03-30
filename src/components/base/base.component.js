@@ -13,12 +13,36 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Outlet, useNavigate } from 'react-router-dom';
+import ProductContext from './../../context/products';
+import Home from '../home/home.component';
 
-const pages = [{name:'home',route:'/home'}, {name:'cart',route:'/cart'}];
+const pages = [{ name: 'home', route: '/home' },
+{ name: 'Men', route: '/products' },
+{ name: 'Women', route: '/products' },
+{ name: 'kids', route: '/products' },
+{ name: 'home & living', route: '/products' },
+{ name: 'beauty', route: '/products' },
+{ name: 'studio', route: '/products' },
+{ name: 'cart', route: '/cart' }
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function BaseComponent() {
-  const navi=useNavigate()
+  const navi = useNavigate();
+  const [products, setProducts] = React.useState([]);
+  React.useEffect(() => {
+    fetch('https://content.newtonschool.co/v1/pr/63b6c911af4f30335b4b3b89/products?limit=10&page=2')
+      .then((res) => res.json())
+      .then((data) => {
+        //data returns array that why directly using if not we needs to convert it into array
+        setProducts(data)
+        console.log(data);
+      })
+  }, [])
+  
+
+
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -38,7 +62,7 @@ export default function BaseComponent() {
   };
 
   return (
-    <>
+    <><ProductContext.Provider value={{ products, setProducts }}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -46,7 +70,7 @@ export default function BaseComponent() {
               variant="h6"
               noWrap
               component="a"
-              onClick={()=>{navi("/home")}}
+              onClick={() => { navi("/home") }}
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -91,14 +115,14 @@ export default function BaseComponent() {
               >
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center" onClick={()=>{
+                    <Typography textAlign="center" onClick={() => {
                       navi(page.route);
                     }}>{page.name}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
-            
+
             <Typography
               variant="h5"
               noWrap
@@ -122,7 +146,7 @@ export default function BaseComponent() {
                 <Button
                   key={page}
                   // onClick={handleCloseNavMenu}
-                  onClick={()=>{
+                  onClick={() => {
                     navi(page.route);
                   }}
                   sx={{ my: 2, color: 'white', display: 'block' }}
@@ -165,6 +189,7 @@ export default function BaseComponent() {
         </Container>
       </AppBar>
       <Outlet></Outlet>
+    </ProductContext.Provider>
     </>
   );
 }
