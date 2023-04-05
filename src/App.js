@@ -1,8 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {createBrowserRouter,RouterProvider} from 'react-router-dom';
 import './App.css';
 import BaseComponent from './components/base/base.component';
 import Home from './components/home/home.component';
-import Products from './components/product/products.component';
+import Products from './components/home/product/productList.component';
 const route = createBrowserRouter([{
   path:'/',
   element:<BaseComponent></BaseComponent>,

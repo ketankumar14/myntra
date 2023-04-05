@@ -1,13 +1,20 @@
 import React from 'react'
 import { useContext } from 'react'
-import ProductContext from '../../context/products';
+import ProductContext from '../../context/productsList';
 import ProductCard from './product/product.card';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import ImageA from '../../images/a.png';
+import ImageB from '../../images/b.png';
+import ImageC from '../../images/c.png';
+import ImageD from '../../images/d.png';
+import Carousel from 'react-bootstrap/Carousel';
+import { Col, Container, Row } from 'react-bootstrap';
 export default function Home() {
   const { products } = useContext(ProductContext);
+  const Banner = [ImageA, ImageB, ImageC, ImageD];
   const homeItemLists = [
     'DEAL OF THE DAY',
     'BEST OF MYNTRA EXCLUSIVE BRANDS',
@@ -19,19 +26,30 @@ export default function Home() {
     'MYNTRA LUXE'
   ]
   return (
-    <>
-      {homeItemLists.map((banner)=>{
+    <><br /><br /><br />
+      <Carousel>
+        {Banner.map((img) => (
+          <Carousel.Item interval={1000}>
+            <img
+              className="d-block w-100"
+              src={img}
+              alt="Slides"
+            />
+          </Carousel.Item>
+        ))}
+      </Carousel>
+      {homeItemLists.map((banner) => {
         return <>
-        <h1>{banner}</h1>
-        <Box sx={{ flexGrow: 3 }}>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            {products.map((item) => {
-              return <Grid item>
-                <ProductCard item={item} />
-              </Grid>
-            })}
-          </Grid>
-        </Box>
+          <h1 style={{textAlign:'left'}}>{banner}</h1>
+          <Container>
+            <Row>
+              {products.map((item) =>
+                <Col>
+                  <ProductCard item={item} />
+                </Col>
+              )}
+            </Row>
+          </Container>
         </>
       })}
     </>
