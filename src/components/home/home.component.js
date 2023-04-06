@@ -38,14 +38,16 @@ export default function Home() {
           </Carousel.Item>
         ))}
       </Carousel>
-      {homeItemLists.map((banner) => {
+      {homeItemLists.map((banner,idx) => {
         return <>
-          <h1 style={{textAlign:'left'}}>{banner}</h1>
-          <Container>
+          
+          <Container key={idx}>
+            <h1 style={{textAlign:'left'}}>{banner}</h1>
             <Row>
-              {products.map((item) =>
-                <Col>
-                  <ProductCard item={item} />
+              {/* have to remove slice and use api for limit  */}
+              {products.slice(0,4).map((item,idxitem) =>
+                <Col key={idxitem+"-"+idx}>
+                  <ProductCard item={item}/>
                 </Col>
               )}
             </Row>

@@ -6,15 +6,22 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { InputGroup } from 'react-bootstrap';
+import { useContext } from 'react';
+import ProductContext from '../../context/productsList';
+import Search from './Search.Model';
+
+
+
 
 function NavBarMain({ menus }) {
     const navigateTo = useNavigate();
     return (
         <Navbar collapseOnSelect expand="lg" bg="light" fixed='top'>
             <Container>
-                <Navbar.Brand onClick={()=>{
-                                navigateTo('/')
-                            }}>
+                <Navbar.Brand onClick={() => {
+                    navigateTo('/')
+                }}>
                     <img
                         src={icon}
                         width="100%"
@@ -27,20 +34,13 @@ function NavBarMain({ menus }) {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         {menus.map((menu) => {
-                            return <><Nav.Link key={menu.name} onClick={()=>{
+                            return <><Nav.Link key={menu.name} onClick={() => {
                                 navigateTo(menu.route)
                             }}>{menu.name.toUpperCase()}</Nav.Link></>
                         })}
+                        <Search/>
                     </Nav>
-                    <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className="me-2"
-                            aria-label="Search"
-                        />
-                        <Button variant="outline-success">Search</Button>
-                    </Form>
+
                     <Nav>
 
                         <icons.Person />
